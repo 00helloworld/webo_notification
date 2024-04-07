@@ -39,6 +39,7 @@ def get_info_m(url="https://m.weibo.cn/u/2707458563"):
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
     time.sleep(10)
+    save_html(driver, name='get_info_m')
 
     div_name = driver.find_element(by=By.CLASS_NAME, value='mod-fil-name')
     username = div_name.text
@@ -61,6 +62,8 @@ def get_info_w(weibo_web):
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(weibo_web)
     time.sleep(10)
+    save_html(driver, name='get_info_w')
+
     div_display = driver.find_element(by=By.CLASS_NAME, value='ProfileHeader_tag_2Ku6K')
     display_cnt = div_display.text
     div_posts_cnt = driver.find_element(by=By.CSS_SELECTOR, value='div.wbpro-screen-v2.woo-box-flex.woo-box-alignCenter.woo-box-justifyBetween')

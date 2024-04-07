@@ -3,7 +3,12 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
+
+from src.log_config import info_logger, error_logger
+# info_logger.info('This is crawler.py')
 
 # 设置 Chrome 选项
 chrome_options = Options()
@@ -37,7 +42,7 @@ def save_html(driver, name='tmp'):
 
 def get_info_m(url="https://m.weibo.cn/u/2707458563"):
     # 从微博m版获取信息
-
+    
     driver = webdriver.Chrome(options=chrome_options)
     driver.implicitly_wait(30)
     driver.get(url)
@@ -63,11 +68,20 @@ def get_info_w(weibo_web):
     # 从微博web版获取信息
 
     driver = webdriver.Chrome(options=chrome_options)
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
     driver.get(weibo_web)
     # time.sleep(10)
+    
+    try:
+        # 等待'全部微博（'出现
+        element = WebDriverWait(driver, 30).until(
+            EC.text_to_be_present_in_element((By.CSS_SELECTOR, 'div.wbpro-screen-v2.woo-box-flex.woo-box-alignCenter.woo-box-justifyBetween'), '全部微博（')
+        )
+        info_logger.debug("等待'全部微博（'出现 Succeed")
+    except:
+        info_logger.debug("等待'全部微博（'出现 Fail")
+        pass
     save_html(driver, name='get_info_w')
-
     div_display = driver.find_element(by=By.CLASS_NAME, value='ProfileHeader_tag_2Ku6K')
     display_cnt = div_display.text
     div_posts_cnt = driver.find_element(by=By.CSS_SELECTOR, value='div.wbpro-screen-v2.woo-box-flex.woo-box-alignCenter.woo-box-justifyBetween')

@@ -6,48 +6,30 @@ from src.crawler import *
 from src.db import *
 from src.utils import *
 from src.push import *
+from src.log_config import info_logger, error_logger
 
-error_log = 'log/error.log'
-success_log = 'log/success.log'
+
 db_name = 'data/database.db'
 info_table = 'info_table'
 
 
-# 配置正常日志
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
-# 创建一个新的文件处理程序（handler）用于记录正常日志
-normal_file_handler = logging.FileHandler(success_log)
-normal_file_handler.setLevel(logging.INFO)  # 设置级别为 INFO
-normal_file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-
-# 创建一个新的文件处理程序（handler）用于记录错误日志
-error_file_handler = logging.FileHandler(error_log)
-error_file_handler.setLevel(logging.ERROR)  # 设置级别为 ERROR
-error_file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-
-# 获取默认的日志记录器并添加处理程序
-logger = logging.getLogger()
-logger.addHandler(normal_file_handler)
-logger.addHandler(error_file_handler)
-
 
 def run():
-    logger.info('run.py start')
+    info_logger.info('run.py start')
     new_data = {}
     message = ''
     date_time, date, time = get_formatted_time()
 
     try:
         weibo_web, username, followers, fans, signature = get_info_m()
-        logger.info('get_info_m() success')
+        info_logger.info('get_info_m() success')
         display_cnt, posts_cnt = get_info_w(weibo_web)
-        logger.info('get_info_w() success')
+        info_logger.info('get_info_w() success')
 
 
     except Exception as e:
-        logging.error(f"An error occurred in crawler.py: {e}", exc_info=True)
+        error_logger.error(f"An error occurred in crawler.py: {e}", exc_info=True)
+        info_logger.error(f"An error occurred in crawler.py: {e}")
         message = 'crawler error in run.py'
 
         error_flag = 'YES'
@@ -140,15 +122,18 @@ if __name__=='__main__':
 
     try:
         message, notify = run()
+        info_logger.info('run.py success')
     except Exception as e:
-        logging.error(f"An error occurred in run.py: {e}", exc_info=True)
+        error_logger.error(f"An error occurred in run.py: {e}", exc_info=True)
+        info_logger.error(f"An error occurred in run.py: {e}")
         message = 'Compare or write table error in run.py'
         notify = 'YES'
 
     if notify == 'YES':
-        logger.info(message)
+        info_logger.info(message)
         try:
             status = pushover(message)
-            logger.info('Message sent')
+            info_logger.info('Message sent')
         except Exception as e:
-            logging.error(f"An error occurred in pushover: {e}", exc_info=True)
+            error_logger.error(f"An error occurred in pushover: {e}", exc_info=True)
+            info_logger.error(f"An error occurred in pushover: {e}")

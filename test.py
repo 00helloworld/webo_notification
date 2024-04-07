@@ -3,6 +3,9 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 import time
 
 # 设置 Chrome 选项
@@ -35,10 +38,15 @@ def test(url="https://m.weibo.cn/u/2707458563"):
     # 从微博m版获取信息
 
     driver = webdriver.Chrome(options=chrome_options)
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
 
     driver.get(url)
-    div_display = driver.find_element(by=By.CLASS_NAME, value='ProfileHeader_tag_2Ku6K')
+    element = WebDriverWait(driver, 20).until(
+        EC.text_to_be_present_in_element((By.CSS_SELECTOR, 'div.wbpro-screen-v2.woo-box-flex.woo-box-alignCenter.woo-box-justifyBetween'), '全部微博（')
+    )
+    div_posts_cnt = driver.find_element(by=By.CSS_SELECTOR, value='div.wbpro-screen-v2.woo-box-flex.woo-box-alignCenter.woo-box-justifyBetween')
+    posts_cnt = div_posts_cnt.text
+    print(posts_cnt)
     save_html(driver, name='test')
 
     # 关闭 WebDriver

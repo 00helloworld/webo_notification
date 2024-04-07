@@ -2,8 +2,10 @@ import streamlit as st
 from password_check import check_password
 from get_data import *
 
-
+# conda deactivate 服务器上需要
 # python -m streamlit run src/visualize/main_page.py --server.port 8502
+# nohup python -m streamlit run src/visualize/main_page.py --server.port 8502 > log_streamlit.log &
+
 # streamlit run src/visualize/main_page.py --server.port 8502 会出现import自己的包报错
 
 hide_streamlit_style = """

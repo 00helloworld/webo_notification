@@ -35,7 +35,6 @@ logger.addHandler(error_file_handler)
 
 def run():
     logger.info('run.py start')
-    latest_data = read_latest_info(db_name, info_table)
     new_data = {}
     message = ''
     date_time, date, time = get_formatted_time()
@@ -49,7 +48,7 @@ def run():
 
     except Exception as e:
         logging.error(f"An error occurred in crawler.py: {e}", exc_info=True)
-        message = 'error'
+        message = 'crawler error in run.py'
 
         error_flag = 'YES'
         latest_flag = 'NO'
@@ -68,32 +67,50 @@ def run():
         }
         write_info(db_name, info_table, new_data)
 
-        return message
-
+        return message, 'YES'
+    
+    # Compare and write table
+    error_flag = 'NO'
+    latest_flag = 'NO'
+    notify = 'NO'
+    latest_data = read_latest_info(db_name, info_table)
     if latest_data["username"] != username:
         message = message + ' ' + f'用户名: {latest_data["username"]}->{username}'
+        latest_flag = 'YES'
+        notify = 'YES'
         pass
     if latest_data["followers"] != followers:
         message = message + ' ' + f'关注: {latest_data["followers"]}->{followers}'
+        latest_flag = 'YES'
+        notify = 'YES'
         pass
     if latest_data["fans"] != fans:
         message = message + ' ' + f'粉丝: {latest_data["fans"]}->{fans}'
+        latest_flag = 'YES'
+        notify = 'YES'
         pass
     if latest_data["display_cnt"] != display_cnt:
         message = message + ' ' + f'播放量: {latest_data["display_cnt"]}->{display_cnt}'
+        # latest_flag = 'YES'  # 不改变latest_flag状态
+        # notify = 'YES' if notify=='YES' else 'NO'  # 如果上面有变化需要通知则通知 否则不通知，不改变通知状态
         pass
     if latest_data["signature"] != signature:
         message = message + ' ' + f'签名: {latest_data["signature"]}->{signature}'
+        latest_flag = 'YES'
+        notify = 'YES'
         pass
     if latest_data["posts_cnt"] != posts_cnt:
         if posts_cnt.strip() == '全部微博':
             message = message
+            # 不改变latest_flag状态
+            # 不改变通知状态
         else:
             message = message + ' ' + f'微博数量: {latest_data["posts_cnt"]}->{posts_cnt}'
+            latest_flag = 'YES'
+            notify = 'YES'
         pass
 
-    error_flag = 'NO'
-    latest_flag = 'YES'
+    
     new_data = {
         "username": username,
         "followers": followers,
@@ -107,15 +124,14 @@ def run():
         "latest_flag": latest_flag,
         "update_time": date_time
     }
-    latest_data['update_time'] = date_time
-    update_info(db_name, info_table, latest_data)
+    # 修改表中latest数据
+    if latest_data == 'YES':  # 当前爬到的是latest_flag是YES,则修改表中原latest_flag为NO
+        latest_data['update_time'] = date_time
+        update_info(db_name, info_table, latest_data)
+    # 新写入latest数据
     write_info(db_name, info_table, new_data)
 
-    if len(message) > 5:
-        logger.info('New changes appear')
-    logger.info('run.py success')
-
-    return message
+    return message, notify
     
 
 
@@ -123,12 +139,14 @@ def run():
 if __name__=='__main__':
 
     try:
-        message = run()
+        message, notify = run()
     except Exception as e:
         logging.error(f"An error occurred in run.py: {e}", exc_info=True)
-        message = 'error'
+        message = 'Compare or write table error in run.py'
+        notify = 'YES'
 
-    if message != '':
+    if notify == 'YES':
+        logger.info(message)
         try:
             status = pushover(message)
             logger.info('Message sent')

@@ -35,8 +35,10 @@ def test(url="https://m.weibo.cn/u/2707458563"):
     # 从微博m版获取信息
 
     driver = webdriver.Chrome(options=chrome_options)
+    driver.implicitly_wait(30)
+
     driver.get(url)
-    time.sleep(10)
+    div_display = driver.find_element(by=By.CLASS_NAME, value='ProfileHeader_tag_2Ku6K')
     save_html(driver, name='test')
 
     # 关闭 WebDriver
@@ -44,4 +46,4 @@ def test(url="https://m.weibo.cn/u/2707458563"):
 
 
 if __name__ == '__main__':
-    test('https://baidu.com')
+    test('https://weibo.com/n/%E4%BB%BF%E4%BD%9B%E6%9C%B1%E8%8E%89%E8%8E%89')

@@ -39,8 +39,9 @@ def get_info_m(url="https://m.weibo.cn/u/2707458563"):
     # 从微博m版获取信息
 
     driver = webdriver.Chrome(options=chrome_options)
+    driver.implicitly_wait(30)
     driver.get(url)
-    time.sleep(10)
+    # time.sleep(10)
     save_html(driver, name='get_info_m')
 
     div_name = driver.find_element(by=By.CLASS_NAME, value='mod-fil-name')
@@ -62,8 +63,9 @@ def get_info_w(weibo_web):
     # 从微博web版获取信息
 
     driver = webdriver.Chrome(options=chrome_options)
+    driver.implicitly_wait(30)
     driver.get(weibo_web)
-    time.sleep(10)
+    # time.sleep(10)
     save_html(driver, name='get_info_w')
 
     div_display = driver.find_element(by=By.CLASS_NAME, value='ProfileHeader_tag_2Ku6K')

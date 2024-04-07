@@ -86,7 +86,10 @@ def run():
         message = message + ' ' + f'签名: {latest_data["signature"]}->{signature}'
         pass
     if latest_data["posts_cnt"] != posts_cnt:
-        message = message + ' ' + f'微博数量: {latest_data["posts_cnt"]}->{posts_cnt}'
+        if posts_cnt.strip() == '全部微博':
+            message = message
+        else:
+            message = message + ' ' + f'微博数量: {latest_data["posts_cnt"]}->{posts_cnt}'
         pass
 
     error_flag = 'NO'
@@ -115,7 +118,7 @@ def run():
     return message
     
 
-    
+
 
 if __name__=='__main__':
 

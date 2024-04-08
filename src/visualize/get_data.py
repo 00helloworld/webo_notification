@@ -13,7 +13,7 @@ def get_table():
         SELECT * 
         FROM info_table 
         WHERE create_date BETWEEN '{start_date}' AND '{end_date}'
-        ORDER BY update_time DESC;
+        ORDER BY create_date DESC, create_time DESC;
     """
     df = pd.read_sql(query, con=conn)
 

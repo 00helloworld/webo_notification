@@ -107,7 +107,7 @@ def run():
         "update_time": date_time
     }
     # 修改表中latest数据
-    if latest_data == 'YES':  # 当前爬到的是latest_flag是YES,则修改表中原latest_flag为NO
+    if latest_flag == 'YES':  # 当前爬到的是latest_flag是YES,则修改表中原latest_flag为NO
         latest_data['update_time'] = date_time
         update_info(db_name, info_table, latest_data)
     # 新写入latest数据

@@ -1,9 +1,9 @@
 import arrow
 
 def get_formatted_time():
-    current_time = arrow.now('America/Winnipeg')
+    current_time = arrow.now('Asia/Shanghai')
     # 获取当前时间
-    current_time = arrow.now()
+    # current_time = arrow.now()
 
     # 格式化为 'YYYYMMDD-HH:MM:SS'
     full_format = current_time.format('YYYYMMDD-HH:mm:ss')

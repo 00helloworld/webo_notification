@@ -53,7 +53,7 @@ def color_filter(val):
 st.write('# Data')
 df = get_table()
 # st.write(df)  # 这两个本身效果一样，下面的可以做css效果
-st.dataframe(df.style.applymap(color_filter, subset=['notify_flag']))
+st.dataframe(df.style.applymap(color_filter, subset=['notify_flag', 'latest_flag']))
 
 st.write('# Info Log')
 info_log = get_log('info')

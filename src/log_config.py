@@ -1,7 +1,6 @@
 import logging
+from configs import error_log, success_log
 
-error_log = 'log/error.log'
-success_log = 'log/success.log'
 
 logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')

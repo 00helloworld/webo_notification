@@ -1,5 +1,5 @@
 import http.client, urllib
-
+from configs import push_token, push_user
 
 def pushover(message):
     # Need to pay
@@ -7,8 +7,8 @@ def pushover(message):
     conn.request("POST", 
                  "/1/messages.json",
                 urllib.parse.urlencode({
-                    "token": "an2z5m5b62f5ykpnjzoh3rjyaocojc",
-                    "user": "u7ff9zbv33xaomy4uvqhc93c36dbo6",
+                    "token": push_token,
+                    "user": push_user,
                     "message": message,
                 }), 
                 { "Content-type": "application/x-www-form-urlencoded" })

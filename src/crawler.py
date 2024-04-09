@@ -9,6 +9,8 @@ import time
 
 from src.log_config import info_logger, error_logger
 # info_logger.info('This is crawler.py')
+from configs import url_id
+
 
 # 设置 Chrome 选项
 chrome_options = Options()
@@ -40,7 +42,7 @@ def save_html(driver, name='tmp'):
         f.write(html_content)
 
 
-def get_info_m(url="https://m.weibo.cn/u/2707458563"):
+def get_info_m(url=f"https://m.weibo.cn/u/{url_id}"):
     # 从微博m版获取信息
     
     driver = webdriver.Chrome(options=chrome_options)

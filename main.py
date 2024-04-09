@@ -7,10 +7,8 @@ from src.db import *
 from src.utils import *
 from src.push import *
 from src.log_config import info_logger, error_logger
+from configs import db_name, info_table
 
-
-db_name = 'data/database.db'
-info_table = 'info_table'
 
 
 
@@ -29,7 +27,7 @@ def run():
 
     except Exception as e:
         error_logger.error(f"An error occurred in crawler.py: {e}", exc_info=True)
-        info_logger.error(f"An error occurred in crawler.py: {e}")
+        info_logger.error(f"An error occurred in crawler.py: Please check error log")
         message = 'crawler error in run.py'
 
         error_flag = 'YES'
@@ -127,7 +125,7 @@ if __name__=='__main__':
         info_logger.info('run.py success')
     except Exception as e:
         error_logger.error(f"An error occurred in run.py: {e}", exc_info=True)
-        info_logger.error(f"An error occurred in run.py: {e}")
+        info_logger.error(f"An error occurred in run.py: Please check error log")
         message = 'Compare or write table error in run.py'
         notify = 'YES'
 
@@ -138,4 +136,4 @@ if __name__=='__main__':
             info_logger.info('Message sent')
         except Exception as e:
             error_logger.error(f"An error occurred in pushover: {e}", exc_info=True)
-            info_logger.error(f"An error occurred in pushover: {e}")
+            info_logger.error(f"An error occurred in pushover: Please check error log")

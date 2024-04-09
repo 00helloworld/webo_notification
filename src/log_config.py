@@ -1,5 +1,5 @@
 import logging
-from configs import error_log, success_log
+from confs import error_log, success_log
 
 
 logging.basicConfig(level=logging.INFO,

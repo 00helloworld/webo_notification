@@ -1,9 +1,9 @@
 import sqlite3
 import pandas as pd
 import arrow 
-import configs
+import confs
 
-from configs import db_name, info_table, success_log, error_log
+from confs import db_name, info_table, success_log, error_log
 
 def get_table():
     # 获取当前日期和前2天的日期

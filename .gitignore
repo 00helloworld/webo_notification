@@ -9,3 +9,4 @@ __pycache__
 records
 dev/
 configs.py
+confs.py

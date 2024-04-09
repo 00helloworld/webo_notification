@@ -1,6 +1,6 @@
 import streamlit as st
 import hmac
-from configs import streamlit_password
+from confs import streamlit_password
 
 def check_password():
     """Returns `True` if the user had the correct password."""

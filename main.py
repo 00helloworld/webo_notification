@@ -7,7 +7,7 @@ from src.db import *
 from src.utils import *
 from src.push import *
 from src.log_config import info_logger, error_logger
-from configs import db_name, info_table
+from confs import db_name, info_table
 
 
 

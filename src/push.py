@@ -1,5 +1,5 @@
 import http.client, urllib
-from configs import push_token, push_user
+from confs import push_token, push_user
 
 def pushover(message):
     # Need to pay

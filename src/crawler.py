@@ -9,7 +9,7 @@ import time
 
 from src.log_config import info_logger, error_logger
 # info_logger.info('This is crawler.py')
-from configs import url_id
+from confs import url_id
 
 
 # 设置 Chrome 选项

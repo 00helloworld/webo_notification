@@ -45,6 +45,7 @@ def run():
             "create_time": time,
             "error_flag": error_flag,
             "latest_flag": latest_flag,
+            "notify_flag": 'YES',
             "update_time": date_time
         }
         write_info(db_name, info_table, new_data)
@@ -104,6 +105,7 @@ def run():
         "create_time": time,
         "error_flag": error_flag,
         "latest_flag": latest_flag,
+        "notify_flag": notify,
         "update_time": date_time
     }
     # 修改表中latest数据

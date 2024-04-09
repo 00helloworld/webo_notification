@@ -15,6 +15,7 @@ def read_latest_info(db_name, table_name):
             create_time TEXT,
             error_flag TEXT,
             latest_flag TEXT,
+            notify_flag TEXT,
             update_time TEXT
         )
     ''')
@@ -33,7 +34,8 @@ def read_latest_info(db_name, table_name):
             "create_time": latest_row[7],
             "error_flag": latest_row[8],
             "latest_flag": latest_row[9],
-            "update_time": latest_row[10]
+            "notify_flag": latest_row[10],
+            "update_time": latest_row[11]
         }
     else:
         latest_data = {
@@ -47,6 +49,7 @@ def read_latest_info(db_name, table_name):
             "create_time": 'no latest',
             "error_flag": 'no latest',
             "latest_flag": 'no latest',
+            "notify_flag": 'no latest',
             "update_time": 'no latest',
         }
 
@@ -62,10 +65,10 @@ def write_info(db_name, table_name, data):
     cursor = conn.cursor()
 
     cursor.execute(f'''INSERT INTO {table_name} 
-                   (username, followers, fans, signature, display_cnt, posts_cnt, create_date, create_time, error_flag, latest_flag, update_time) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
+                   (username, followers, fans, signature, display_cnt, posts_cnt, create_date, create_time, error_flag, latest_flag, notify_flag, update_time) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
                    , (data['username'], data['followers'], data['fans'], data['signature'], data['display_cnt'], data['posts_cnt'], 
-                      data['create_date'], data['create_time'], data['error_flag'], data['latest_flag'], data['update_time']))
+                      data['create_date'], data['create_time'], data['error_flag'], data['latest_flag'], data['notify_flag'], data['update_time']))
     
     conn.commit()
     cursor.close()

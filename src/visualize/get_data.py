@@ -2,6 +2,7 @@ import sqlite3
 import pandas as pd
 import arrow 
 import configs
+
 from configs import db_name, info_table, success_log, error_log
 
 def get_table():

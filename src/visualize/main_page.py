@@ -46,9 +46,14 @@ st.write('# Status!')
 if st.button("Refresh Data"):
     st.session_state['rerun_counter'] += 1
 
+def color_filter(val):
+    color = '#99FF99' if val=='YES' else 'transparent'
+    return f'background-color: {color}'
+
 st.write('# Data')
 df = get_table()
-st.write(df)
+# st.write(df)  # 这两个本身效果一样，下面的可以做css效果
+st.dataframe(df.style.applymap(color_filter, subset=['notify_flag']))
 
 st.write('# Info Log')
 info_log = get_log('info')

@@ -14,7 +14,8 @@ def get_table():
     conn = sqlite3.connect(db_name)
 
     query = f"""
-        SELECT * 
+        SELECT notify_flag, latest_flag, error_flag, create_date, create_time, posts_cnt, followers, fans,
+            display_cnt, username, signature, update_time
         FROM {info_table} 
         WHERE create_date BETWEEN '{start_date}' AND '{end_date}'
         ORDER BY create_date DESC, create_time DESC;
